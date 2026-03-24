@@ -94,13 +94,47 @@
           <div class="bg-amber-100 text-amber-600 w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl">3</div>
           <h2 class="text-2xl font-bold text-slate-800 tracking-tight">Smart Data Filtering</h2>
         </div>
-        <p class="text-slate-600 leading-relaxed mb-3">
-          Inside <strong>Advanced Settings</strong>, you can filter rows without modifying your actual Spreadsheet. Select a Target Column, choose a Condition (Equals, Contains, Starts With, Regex), and set a Value. 
-          <br>Example: Send only to rows where <code>Status</code> <strong>Equals</strong> <code>Pending</code>.
+        
+        <p class="text-slate-600 leading-relaxed mb-4">
+          Inside <strong>Advanced Settings</strong>, you can filter rows without modifying your actual Spreadsheet. This powerful feature allows you to send targeted campaigns based on any column value.
         </p>
+        
+        <ul class="list-disc ml-6 mb-4 text-slate-600 space-y-2">
+          <li><strong>Target Column:</strong> Choose the column you want to base your filter on (e.g., "Status", "Course", "Score").</li>
+          <li><strong>Condition:</strong>
+            <ul class="list-[circle] ml-6 mt-1 space-y-1 text-sm text-slate-500">
+              <li><code>Equals</code>: Exact match required (e.g., "Pending").</li>
+              <li><code>Contains</code>: Matches if the text includes the keyword anywhere inside it.</li>
+              <li><code>Starts With / Ends With</code>: Matches string boundaries.</li>
+              <li><code>Regex</code>: Advanced regular expression matching.</li>
+            </ul>
+          </li>
+          <li><strong>Value:</strong> The keyword you want the app to look for.</li>
+        </ul>
+
+        <div class="p-4 bg-amber-50 rounded-xl border border-amber-200 mb-6 text-sm text-amber-800">
+          <strong>💡 Pro Tip:</strong> Use Filtering to comply with anti-spam laws! If you have an "Opt-in" or "Status" column, set the rule to <code>Status</code> <strong>Equals</strong> <code>Active</code> to ensure you never accidentally email un-subscribed users.
+        </div>
+
         <div class="vi-text">
-          Trong mục <strong>Advanced Settings (Cài đặt nâng cao)</strong>, bạn có thể lọc dữ liệu mà không cần phải xóa hay ẩn dòng trên file Google Sheet gốc. Chọn Cột mục tiêu, chọn Điều kiện (Bằng, Có chứa, Bắt đầu bằng, Regex), và nhập Giá trị.
-          <br>Ví dụ: Chỉ gửi mail cho những người có cột <code>Trạng Thái</code> <strong>Bằng</strong> <code>Chưa nộp tiền</code>.
+          <p class="mb-3">
+            Trong mục <strong>Advanced Settings (Cài đặt nâng cao)</strong>, bạn có thể lọc dữ liệu mà <strong>KHÔNG CẦN</strong> phải xóa hay ẩn dòng trên file Google Sheet gốc. Đây là công cụ đắc lực để cá nhân hóa tệp khách hàng.
+          </p>
+          <ul class="list-disc ml-4 mb-3 space-y-1 text-sm">
+            <li><strong>Target Column (Cột mục tiêu):</strong> Chọn tên cột làm tiêu chuẩn (VD: Khóa học, Điểm số, Đã thanh toán...).</li>
+            <li><strong>Condition (Điều kiện lọc):</strong> 
+              <ul class="list-[circle] ml-5 mt-1 text-[0.9em] space-y-1">
+                <li><code>Equals</code>: Bằng chính xác y hệt (VD: Cột có chữ "Trượt" thì gõ chữ "Trượt").</li>
+                <li><code>Contains</code>: Trong ô có chứa từ khóa là được (VD: Gõ "Hà", nó lọc ra cả "Hà Nội" lẫn "Hà Nam").</li>
+                <li><code>Starts / Ends With</code>: Bắt đầu / Kết thúc bằng.</li>
+                <li><code>Regex</code>: Lọc theo cấu trúc phức tạp (dành cho lập trình viên).</li>
+              </ul>
+            </li>
+            <li><strong>Value (Giá trị):</strong> Từ khóa bạn muốn đối chiếu.</li>
+          </ul>
+          <p class="italic text-[0.9em] bg-slate-100 p-3 rounded-lg mt-2 text-slate-600">
+            <strong>🎯 Mẹo thực tế:</strong> Nếu sheet của bạn có cột "Trạng Thái Nhận Mail", hãy áp dụng bộ lọc <code>Trạng Thái</code> <strong>Equals</strong> <code>Đồng ý</code>. Kể từ giờ, App sẽ tự động bỏ qua những người "Hủy đăng ký" để bảo vệ an toàn tuyệt đối cho tài khoản Gmail của bạn.
+          </p>
         </div>
       </section>
 
