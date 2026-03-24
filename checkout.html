@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mail Merge Premium Checkout</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .checkout-container {
+      background: white;
+      padding: 2.5rem 2.5rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      text-align: center;
+      max-width: 520px;
+      width: 90%;
+    }
+    .checkout-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.025em;
+    }
+    .checkout-subtitle {
+      font-size: 0.9rem;
+      color: #64748b;
+      margin-bottom: 1.25rem;
+    }
+    .checkout-email {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin-bottom: 2rem;
+      padding: 0.75rem 1rem;
+      background: #f8fafc;
+      border-radius: 0.75rem;
+      word-break: break-all;
+      border: 1px dashed #cbd5e1;
+    }
+    .payment-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 500px) {
+      .payment-grid { grid-template-columns: 1fr; gap: 1rem; }
+    }
+    .payment-option {
+      border: 2px solid #e2e8f0;
+      border-radius: 1rem;
+      padding: 1.5rem 1rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      background: #fafbfc;
+      position: relative;
+      overflow: hidden;
+    }
+    .payment-option:hover {
+      border-color: #6366f1;
+      background: #f5f3ff;
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(99,102,241,0.12);
+    }
+    .payment-option.active {
+      border-color: #6366f1;
+      background: #f5f3ff;
+      box-shadow: 0 0 0 2px rgba(99,102,241,0.2);
+    }
+    .payment-option-icon {
+      font-size: 2.25rem;
+      margin-bottom: 0.75rem;
+      transition: transform 0.3s ease;
+    }
+    .payment-option:hover .payment-option-icon {
+      transform: scale(1.1);
+    }
+    .payment-option-title {
+      font-weight: 700;
+      color: #1e293b;
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
+    .payment-option-price {
+      color: #6366f1;
+      font-weight: 800;
+      font-size: 1.15rem;
+    }
+    .payment-option-desc {
+      color: #94a3b8;
+      font-size: 0.75rem;
+      margin-top: 0.35rem;
+      font-weight: 500;
+    }
+    #paypal-section, #payos-section, #crypto-section {
+      display: none;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #f1f5f9;
+      animation: stretchIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes stretchIn {
+      from { opacity: 0; transform: translateY(10px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    #paypal-button-container {
+      min-height: 55px;
+    }
+    .payos-btn {
+      width: 100%;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+      color: white;
+      border: none;
+      border-radius: 0.85rem;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 12px rgba(0,206,201,0.25);
+    }
+    .payos-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,206,201,0.4);
+    }
+    .payos-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+      background: #cbd5e1;
+    }
+    .success-msg {
+      color: #10b981;
+      font-weight: bold;
+      padding: 24px;
+      font-size: 1.15rem;
+      background: #ecfdf5;
+      border-radius: 1rem;
+      border: 1px solid #a7f3d0;
+    }
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.75rem 0;
+      color: #94a3b8;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="checkout-container">
+    <h2 class="checkout-title">⚡ Mail Merge Premium</h2>
+    <p class="checkout-subtitle">Choose your preferred payment method</p>
+    <div class="checkout-email">
+      Account: <strong id="user-email-display">Loading...</strong>
+    </div>
+
+    <!-- Payment Method Selection -->
+    <div class="payment-grid">
+      <div class="payment-option" id="opt-paypal" onclick="selectPayment('paypal')">
+        <div class="payment-option-icon">💳</div>
+        <div class="payment-option-title">PayPal</div>
+        <div class="payment-option-price">$1/mo</div>
+        <div class="payment-option-desc">International</div>
+      </div>
+      <div class="payment-option" id="opt-payos" onclick="selectPayment('payos')">
+        <div class="payment-option-icon">🏦</div>
+        <div class="payment-option-title">VietQR</div>
+        <div class="payment-option-price">25k ₫/mo</div>
+        <div class="payment-option-desc">Vietnamese Banks</div>
+      </div>
+      <div class="payment-option" id="opt-crypto" onclick="selectPayment('crypto')">
+        <div class="payment-option-icon">⛓️</div>
+        <div class="payment-option-title">Crypto</div>
+        <div class="payment-option-price">1 USDT/mo</div>
+        <div class="payment-option-desc">Trust Wallet/BSC</div>
+      </div>
+    </div>
+
+    <!-- PayPal Section -->
+    <div id="paypal-section">
+      <div id="paypal-button-container"></div>
+    </div>
+
+    <!-- PayOS Section -->
+    <div id="payos-section">
+      <button class="payos-btn" id="payos-btn" onclick="handlePayOS()">
+        🏦 Pay with VietQR (25,000₫)
+      </button>
+    </div>
+
+    <!-- Crypto Section -->
+    <div id="crypto-section">
+      <div style="background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 20px;">
+        <button class="payos-btn" style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);" id="crypto-connect-btn" onclick="connectWallet()">
+          🦊 Connect Web3 Wallet (Auto)
+        </button>
+        <div id="crypto-pay-area" style="display: none; margin-top: 15px;">
+          <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 10px;" id="wallet-address-display"></p>
+          <button class="payos-btn" style="background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);" id="crypto-pay-btn" onclick="payWithCrypto()">
+            ⛓️ Pay 1 USDT (BNB Chain)
+          </button>
+        </div>
+      </div>
+
+      <div class="divider">OR TRANSFER MANUALLY FROM PHONE</div>
+
+      <div style="background: #ffffff; padding: 15px; border-radius: 12px; border: 1px dashed #cbd5e1; text-align: center; margin-top: 20px;">
+        <p style="font-size: 0.85rem; color: #334155; margin-bottom: 10px;">
+          Scan the QR and transfer exactly <strong>1 USDT (BSC/BEP20 Network)</strong>
+        </p>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=0xa67926D3D933e4d40236ca122EfC4cf9f8c9b650" alt="Crypto QR" style="width: 140px; height: 140px; border-radius: 12px; margin: 0 auto 10px; border: 1px solid #e2e8f0; padding: 5px;">
+        
+        <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 5px;">Receiver Address (Tap to copy):</p>
+        <div onclick="navigator.clipboard.writeText('0xa67926D3D933e4d40236ca122EfC4cf9f8c9b650'); alert('Address copied!')" style="background:#f1f5f9; padding: 10px; border-radius: 8px; font-size: 0.70rem; word-break: break-all; margin-bottom: 15px; font-family: monospace; cursor: pointer; border: 1px solid #cbd5e1; color: #0f172a; font-weight: 600;">
+          0xa67926D3D933e4d40236ca122EfC4cf9f8c9b650
+        </div>
+
+        <input type="text" id="manual-txhash" placeholder="Paste Transaction Hash (TxHash) after sending..." style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.85rem; margin-bottom: 10px; outline: none; box-sizing: border-box;">
+        <button class="payos-btn" style="background: #3b82f6; padding: 12px;" id="manual-verify-btn" onclick="verifyManualTx()">
+          ✔️ Activate via TxHash
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.11.1/ethers.umd.min.js"></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=AesgSGnXOoouyatS3Haia6n9U9u1fVWDAx88VtMy2caQpVqO1us1TULZX1x0U0rVazYm4jmL7ATHmdiY&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+  <script>
+    // 1. Get email from URL params
+    const urlParams = new URLSearchParams(window.location.search);
+    const userEmail = urlParams.get('email');
+    
+    if (userEmail) {
+      document.getElementById('user-email-display').textContent = userEmail;
+    } else {
+      document.getElementById('user-email-display').textContent = 'No email provided';
+    }
+
+    // Auto-verify PayOS payment on redirect
+    const payosStatus = urlParams.get('payos');
+    const savedOrderCode = localStorage.getItem('payos_orderCode');
+
+    if (payosStatus === 'success' && savedOrderCode) {
+      // User just came back from PayOS after paying — verify with our backend
+      document.querySelector('.checkout-title').textContent = '⏳ Confirming payment...';
+      document.querySelector('.payment-grid').style.display = 'none';
+      document.getElementById('paypal-section').style.display = 'none';
+      document.getElementById('payos-section').innerHTML = '<p style="color:#6366f1;font-weight:600;padding:20px;">Checking payment status...</p>';
+      document.getElementById('payos-section').style.display = 'block';
+
+      fetch('https://pjaxoaggbtbztdhjzbau.supabase.co/functions/v1/payos-verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderCode: parseInt(savedOrderCode) })
+      })
+      .then(r => r.json())
+      .then(result => {
+        if (result.paid) {
+          localStorage.removeItem('payos_orderCode');
+          document.querySelector('.checkout-title').textContent = '✅ Payment Successful!';
+          document.getElementById('payos-section').innerHTML = '<p class="success-msg">✓ Premium Activated Successfully!<br><small>You can close this tab and return to the Extension.</small></p>';
+        } else {
+          document.querySelector('.checkout-title').textContent = '⏳ Waiting for confirmation...';
+          document.getElementById('payos-section').innerHTML = '<p style="color:#f59e0b;font-weight:600;padding:20px;">Payment is processing. Please wait a few seconds and refresh the page (F5).</p>';
+        }
+      })
+      .catch(() => {
+        document.getElementById('payos-section').innerHTML = '<p style="color:#ef4444;padding:20px;">Connection error. Please refresh the page (F5).</p>';
+      });
+
+    } else if (payosStatus === 'cancelled') {
+      document.querySelector('.checkout-title').textContent = '❌ Payment Cancelled';
+      document.querySelector('.payment-grid').style.display = 'none';
+      document.getElementById('payos-section').innerHTML = '<p style="color:#ef4444;font-weight:600;padding:20px;">You cancelled the payment. <a href="javascript:location.reload()">Try again</a></p>';
+      document.getElementById('payos-section').style.display = 'block';
+    }
+
+    // 2. Payment selection logic
+    function selectPayment(method) {
+      document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('active'));
+      document.getElementById('paypal-section').style.display = 'none';
+      document.getElementById('payos-section').style.display = 'none';
+      document.getElementById('crypto-section').style.display = 'none';
+
+      if (method === 'paypal') {
+        document.getElementById('opt-paypal').classList.add('active');
+        document.getElementById('paypal-section').style.display = 'block';
+      } else if (method === 'payos') {
+        document.getElementById('opt-payos').classList.add('active');
+        document.getElementById('payos-section').style.display = 'block';
+      } else if (method === 'crypto') {
+        document.getElementById('opt-crypto').classList.add('active');
+        document.getElementById('crypto-section').style.display = 'block';
+      }
+    }
+
+    // 3. Render PayPal Smart Buttons
+    if (window.paypal) {
+      paypal.Buttons({
+          style: {
+              shape: 'rect',
+              color: 'blue',
+              layout: 'horizontal',
+              label: 'paypal'
+          },
+          onInit: function(data, actions) {
+            // Optional: disable button if no email, but we'll show an alert instead on click
+          },
+          onClick: function() {
+            if (!userEmail) {
+              alert("Error: Registration email not found.\nIt seems you opened this link directly. Please go back to the Extension and click the Upgrade link to pay.");
+            }
+          },
+          createSubscription: function(data, actions) {
+            if (!userEmail) {
+               return null; // Stop the flow
+            }
+            return actions.subscription.create({
+              plan_id: 'P-81N56844SS321112GNHAJ7WY',
+              custom_id: userEmail 
+            });
+          },
+          onApprove: function(data, actions) {
+            document.querySelector('.checkout-title').textContent = '✅ Success!';
+            document.querySelector('.payment-grid').style.display = 'none';
+            document.getElementById('paypal-section').innerHTML = '<p class="success-msg">✓ Subscription Active. You can close this tab and return to the extension.</p>';
+          },
+          onError: function(err) {
+            console.error('PayPal Error:', err);
+            // Ignore the error if it was just because of missing userEmail
+            if (userEmail) {
+              alert('A PayPal connection error occurred. Please try again.');
+            }
+          }
+      }).render('#paypal-button-container');
+    }
+
+    // 4. PayOS handler — save orderCode before redirecting
+    async function handlePayOS() {
+      if (!userEmail) {
+        alert('Error: No email provided.');
+        return;
+      }
+
+      const btn = document.getElementById('payos-btn');
+      btn.disabled = true;
+      btn.textContent = '⏳ Generating payment link...';
+
+      try {
+        const res = await fetch('https://pjaxoaggbtbztdhjzbau.supabase.co/functions/v1/payos-create-link', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: userEmail })
+        });
+
+        const data = await res.json();
+
+        if (data.checkoutUrl) {
+          // Save orderCode so we can verify after redirect
+          if (data.orderCode) {
+            localStorage.setItem('payos_orderCode', String(data.orderCode));
+          }
+          window.location.href = data.checkoutUrl;
+        } else {
+          alert('Error generating payment link: ' + (data.error || 'Unknown error'));
+          btn.disabled = false;
+          btn.textContent = '🏦 Pay with VietQR (25,000₫)';
+        }
+      } catch (err) {
+        console.error('PayOS Error:', err);
+        alert('Connection error. Please try again.');
+        btn.disabled = false;
+        btn.textContent = '🏦 Pay with VietQR (25,000₫)';
+      }
+    }
+    // 5. Crypto (Web3) handler
+    const USDT_CONTRACT_ADDRESS = "0x55d398326f99059fF775485246999027B3197955";
+    const RECEIVER_WALLET = "0xa67926D3D933e4d40236ca122EfC4cf9f8c9b650";
+    let web3Provider = null;
+    let web3Signer = null;
+
+    async function connectWallet() {
+      let injectedProvider = null;
+      if (window.ethereum) injectedProvider = window.ethereum;
+      else if (window.trustwallet) injectedProvider = window.trustwallet;
+
+      if (!injectedProvider) {
+        alert("Please install a Web3 wallet (Trust Wallet, MetaMask) or enable its extension.");
+        return;
+      }
+      try {
+        const btn = document.getElementById('crypto-connect-btn');
+        btn.textContent = "Connecting...";
+        
+        web3Provider = new ethers.BrowserProvider(injectedProvider);
+        await web3Provider.send("eth_requestAccounts", []);
+
+        let network = await web3Provider.getNetwork();
+        if (network.chainId !== 56n) {
+          try {
+            await injectedProvider.request({
+              method: 'wallet_switchEthereumChain',
+              params: [{ chainId: '0x38' }], // 56 in hex (BSC Mainnet)
+            });
+            
+            // Re-create provider to clear the old network state and prevent NETWORK_ERROR
+            web3Provider = new ethers.BrowserProvider(injectedProvider);
+          } catch (switchError) {
+            alert("Please switch your network to Binance Smart Chain (BSC) in your wallet.");
+            btn.textContent = "🦊 Connect Web3 Wallet (Auto)";
+            return;
+          }
+        }
+
+        web3Signer = await web3Provider.getSigner();
+        const address = await web3Signer.getAddress();
+        document.getElementById('wallet-address-display').innerHTML = `Wallet: <strong>${address.slice(0,6)}...${address.slice(-4)}</strong>`;
+        
+        btn.style.display = "none";
+        document.getElementById('crypto-pay-area').style.display = "block";
+      } catch (err) {
+        console.error(err);
+        alert("Wallet connection error: " + err.message);
+        document.getElementById('crypto-connect-btn').textContent = "🦊 Connect Web3 Wallet (Auto)";
+      }
+    }
+
+    async function payWithCrypto() {
+      if (!userEmail) {
+        alert("No registration email found.");
+        return;
+      }
+
+      const btn = document.getElementById('crypto-pay-btn');
+      btn.disabled = true;
+      btn.textContent = "⏳ Requesting transaction signature...";
+
+      try {
+        // ALWAYS re-create provider & signer right before tx to prevent out-of-sync network errors
+        let injectedProvider = window.ethereum || window.trustwallet;
+        web3Provider = new ethers.BrowserProvider(injectedProvider);
+        
+        const network = await web3Provider.getNetwork();
+        if (network.chainId !== 56n) {
+          throw new Error("Please switch your wallet network to Binance Smart Chain (BSC) before paying.");
+        }
+
+        web3Signer = await web3Provider.getSigner();
+        const userAddress = await web3Signer.getAddress();
+
+        const abi = [
+          "function transfer(address to, uint amount) returns (bool)",
+          "function balanceOf(address owner) view returns (uint)"
+        ];
+        const usdtContract = new ethers.Contract(USDT_CONTRACT_ADDRESS, abi, web3Signer);
+
+        // 1 USDT = 1 * 10^18 decimals on BSC
+        const amount = ethers.parseUnits("1", 18);
+
+        // Proactive Balance Check
+        try {
+          const balance = await usdtContract.balanceOf(userAddress);
+          if (balance < amount) {
+             throw new Error("Your wallet does not have enough 1 USDT (BSC/BEP20 network) to pay.");
+          }
+        } catch (err) {
+          if (err.message.includes("enough 1 USDT")) throw err;
+          // ignore other read errors just in case
+        }
+
+        // Send transaction (pops up wallet)
+        const tx = await usdtContract.transfer(RECEIVER_WALLET, amount);
+        
+        btn.textContent = "⏳ Waiting for Blockchain confirmation (10-30s)...";
+        
+        // Wait for 1 confirmation
+        const receipt = await tx.wait(); 
+
+        if (receipt.status !== 1) {
+          throw new Error("Blockchain transaction failed or reverted.");
+        }
+
+        btn.textContent = "✅ Granting license...";
+
+        // Verify hash exactly as PayOS verification works
+        const res = await fetch('https://pjaxoaggbtbztdhjzbau.supabase.co/functions/v1/crypto-verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ txHash: tx.hash, email: userEmail })
+        });
+
+        const result = await res.json();
+        
+        if (result.verified) {
+           document.querySelector('.checkout-title').textContent = '✅ Crypto Payment Successful!';
+           document.querySelector('.payment-grid').style.display = 'none';
+           document.getElementById('crypto-section').innerHTML = '<p class="success-msg">✓ USDT transaction confirmed. You now have Premium!<br><small>You can close this tab and return to the Extension.</small></p>';
+        } else {
+           throw new Error(result.error || "Server declined the transaction validity.");
+        }
+
+      } catch (err) {
+        console.error("Crypto Error:", err);
+        let msg = err.reason || err.message;
+        
+        // Translate scary ethers v6 errors
+        if (msg.includes("estimateGas") || msg.includes("CALL_EXCEPTION")) {
+           msg = "Network rejected the transaction. Common reason: Wallet lacks enough Gas (BNB) or USDT balance.";
+        } else if (msg.toLowerCase().includes("user rejected") || msg.includes("rejected by user")) {
+           msg = "You cancelled the transaction in your wallet.";
+        } else if (msg.includes("insufficient funds")) {
+           msg = "Wallet does not have enough BNB balance for gas fees.";
+        }
+
+        alert("Transaction error/cancelled: " + msg);
+        btn.disabled = false;
+        btn.textContent = "⛓️ Pay 1 USDT (BNB Chain)";
+      }
+    }
+
+    async function verifyManualTx() {
+      const txHash = document.getElementById('manual-txhash').value.trim();
+      if (!txHash) {
+        alert("Please paste your Transaction Hash (TxHash).");
+        return;
+      }
+      if (!userEmail) {
+        alert("Account information not found.");
+        return;
+      }
+
+      const btn = document.getElementById('manual-verify-btn');
+      btn.disabled = true;
+      btn.textContent = "⏳ Checking Blockchain...";
+
+      try {
+        const res = await fetch('https://pjaxoaggbtbztdhjzbau.supabase.co/functions/v1/crypto-verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ txHash: txHash, email: userEmail })
+        });
+
+        const result = await res.json();
+        
+        if (result.verified) {
+           document.querySelector('.checkout-title').textContent = '✅ Crypto Payment Successful!';
+           document.querySelector('.payment-grid').style.display = 'none';
+           document.getElementById('crypto-section').innerHTML = '<p class="success-msg">✓ TxHash is valid. You now have Premium!<br><small>You can close this tab and return to the Extension.</small></p>';
+        } else {
+           throw new Error(result.error || "Invalid TxHash, wrong network, or incorrect amount.");
+        }
+      } catch (err) {
+        alert("Verification error: " + err.message);
+        btn.disabled = false;
+        btn.textContent = "✔️ Activate via TxHash";
+      }
+    }
+  </script>
+</body>
+</html>
