@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - MassMailer for Gmail & Sheets</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 leading-relaxed">
+    <div class="max-w-4xl mx-auto px-6 py-12 bg-white mt-10 shadow-md rounded-xl">
+        <h1 class="text-4xl font-extrabold mb-4 text-gray-900 border-b pb-4">Privacy Policy</h1>
+        <p class="text-sm text-gray-500 mb-8">Last updated: <script>document.write(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }))</script></p>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-3 text-indigo-700">1. Introduction</h2>
+            <p class="mb-4">Welcome to <strong>MassMailer for Gmail & Sheets</strong> ("we", "our", or "us"). We are committed to protecting your privacy. This Privacy Policy explains how our Chrome Extension ("Extension") handles your information.</p>
+            <p>Our Extension operates <b>exclusively within your browser</b>. We do not own, operate, or maintain any backend servers that collect or process your personal data.</p>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-3 text-indigo-700">2. How We Handle Your Data</h2>
+            <p class="mb-3">Because our Extension operates entirely locally on your device:</p>
+            <ul class="list-disc pl-6 mb-4 space-y-2 text-gray-700">
+                <li>We <strong>do not</strong> collect, transmit, store, or sell any of your personal information, email addresses, or spreadsheet data to third-party servers.</li>
+                <li>All data processing required to merge documents and send emails occurs directly within your local Chrome browser environment.</li>
+                <li>Your preferences and templates are saved locally on your device using Chrome's local storage (`chrome.storage.local`).</li>
+            </ul>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-3 text-indigo-700">3. Google API Services Usage & Limited Use Policy</h2>
+            <p class="mb-4">MassMailer for Gmail & Sheets integrates seamlessly with Google Workspace applications. The Extension's use and transfer to any other app of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" class="text-indigo-600 hover:text-indigo-800 underline">Google API Services User Data Policy</a>, including the <strong>Limited Use requirements</strong>.</p>
+            
+            <h3 class="text-xl font-medium mb-2 mt-4 text-gray-900">What data do we access?</h3>
+            <ul class="list-disc pl-6 mb-4 space-y-2 text-gray-700">
+                <li><strong>Gmail API:</strong> We request permissions to compose and send emails on your behalf. We do not read your inbox, delete your emails, or monitor your private communications.</li>
+                <li><strong>Google Sheets API:</strong> We request read-only access specifically to fetch the data from the spreadsheet you actively provide, so that we can personalize your bulk emails.</li>
+            </ul>
+
+            <h3 class="text-xl font-medium mb-2 mt-4 text-gray-900">How do we use this data?</h3>
+            <p class="mb-4">The data fetched from your Google Sheets is strictly used to replace `{{Tokens}}` in your email draft and dispatch it via your Gmail account. Once the emails are sent, the temporarily processed data is purged from the Extension's active memory.</p>
+            <p class="mb-4 font-semibold text-red-600 bg-red-50 p-3 rounded border border-red-100">We will never sell or share your Google user data with any third party under any circumstances.</p>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-3 text-indigo-700">4. Permissions Required</h2>
+            <ul class="list-disc pl-6 space-y-3 text-gray-700">
+                <li><strong>activeTab:</strong> Allows the Extension to automatically detect the currently active spreadsheet URL to save you from manual configuration.</li>
+                <li><strong>identity:</strong> Required to securely trigger the Google Sign-in flow and authenticate you with OAuth2 without ever exposing your password to us.</li>
+                <li><strong>storage:</strong> Used solely to save your local UI preferences and drafted templates on your personal computer.</li>
+            </ul>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-3 text-indigo-700">5. User Consent & Control</h2>
+            <p class="mb-4">You have full control over your data. You can revoke the Extension's access to your Google Account at any time by visiting the <a href="https://myaccount.google.com/permissions" target="_blank" class="text-indigo-600 hover:text-indigo-800 underline">Google Account Permissions page</a>.</p>
+            <p>Uninstalling the Extension will completely remove all your locally saved templates and preferences from your browser.</p>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-3 text-indigo-700">6. Changes to this Privacy Policy</h2>
+            <p>We may update this Privacy Policy occasionally to reflect changes in our practices or for other operational, legal, or regulatory reasons. Any changes will be posted here on our GitHub Pages site.</p>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-semibold mb-3 text-indigo-700">7. Contact Us</h2>
+            <p>If you have any questions about this Privacy Policy or our Extension's data handling practices, please feel free to contact us via the support section in the Chrome Web Store listing.</p>
+        </section>
+
+        <footer class="mt-12 border-t pt-8 pb-4 text-center text-sm text-gray-500">
+            &copy; <script>document.write(new Date().getFullYear())</script> MassMailer for Gmail & Sheets. All rights reserved.
+        </footer>
+    </div>
+</body>
+</html>
